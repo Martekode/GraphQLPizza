@@ -7,5 +7,12 @@ namespace GraphQlTest.Schema.Mutations
         public PizzaBase pizzaBase { get; set; }
         public CrustThickness crust { get; set; }
         public Sizes size { get; set; }
+        public Guid ToppingId { get; set; }
+    }
+    public class UpdatePizzaInputType
+    {
+        public PizzaBase pizzaBase { get; set; }
+        public CrustThickness crust { get; set; }
+        public Sizes size { get; set; }
     }
 }

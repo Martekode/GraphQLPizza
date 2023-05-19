@@ -11,7 +11,7 @@ namespace GraphQlTest.Schema.Subscriptions
         /// <param name="topping"></param>
         /// <returns></returns>
         [Subscribe]
-        public ToppingResult ToppingCreated([EventMessage] ToppingResult topping) => topping;
+        public ToppingType ToppingCreated([EventMessage] ToppingType topping) => topping;
 
         /// <summary>
         /// subscription that RETURNS the CREATED PIZZA when created.
@@ -19,6 +19,6 @@ namespace GraphQlTest.Schema.Subscriptions
         /// <param name="pizza"></param>
         /// <returns></returns>
         [Subscribe]
-        public PizzaResult PizzaCreated([EventMessage] PizzaResult pizza) => pizza;
+        public PizzaType PizzaCreated([EventMessage] PizzaType pizza) => pizza;
     }
 }

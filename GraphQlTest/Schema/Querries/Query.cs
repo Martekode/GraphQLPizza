@@ -1,69 +1,34 @@
 ﻿using Bogus;
+using GraphQlTest.Data;
 using GraphQlTest.Models;
 using GraphQlTest.Schema.Mutations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 
 namespace GraphQlTest.Schema.Querries
 {
+
     public class Query
     {
+        private IDbContextFactory<PizzaToppingsDbContext> _context;
+        public Query(IDbContextFactory<PizzaToppingsDbContext> context)
+        {
+            _context = context;
+        }
         public ICollection<PizzaType> GetPizzas()
         {
-            // list collection of the generated pizzas by bogus
-            ICollection<PizzaType> pizzas = new List<PizzaType>
+            using (PizzaToppingsDbContext context = _context.CreateDbContext())
             {
-                new PizzaType
-                {
-                    Id = Guid.NewGuid(),
-                    Base = PizzaBase.GrainDhough,
-                    Crust = CrustThickness.Thick,
-                    Size = Sizes.S,
-                    Topping = new ToppingType
-                    {
-                        Id= Guid.NewGuid(),
-                        Name = "peperoni",
-                        Price = 2.00
-                    }
-                },
-                new PizzaType
-                {
-                    Id = Guid.NewGuid(),
-                    Base = PizzaBase.FlourDhough,
-                    Crust = CrustThickness.Thick,
-                    Size = Sizes.L,
-                    Topping = new ToppingType
-                    {
-                        Id= Guid.NewGuid(),
-                        Name = "Hawaii",
-                        Price = 4.00
-                    }
-                }
-
-            };
-            
-            // return the pizzaList
-            return pizzas;
+                return context.Pizzas.OrderBy(p => p.Id).ToList();
+            }
         }
 
-        public ICollection<ToppingResult> GetToppings()
+        public ICollection<ToppingType> GetToppings()
         {
-            List<ToppingResult> toppings = new List<ToppingResult>
+            using(PizzaToppingsDbContext context = _context.CreateDbContext())
             {
-                new ToppingResult
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "test",
-                    Price = 1
-                },
-                new ToppingResult
-                {
-                    Id = Guid.NewGuid(),
-                    Name= "test2",
-                    Price = 2
-                }
-            };
-
-            return toppings;
+                return context.Toppings.OrderBy(t => t.Name).ToList();
+            }
         }
     }
 }
