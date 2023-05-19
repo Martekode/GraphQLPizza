@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 
 namespace GraphQlTest.Models
 {
@@ -28,6 +29,6 @@ namespace GraphQlTest.Models
         public CrustThickness Crust { get; set; }
         public Sizes Size { get; set; }
 
-        public ToppingType Topping { get; set; }
+        public Guid ToppingId { get; set; }
     }
 }
