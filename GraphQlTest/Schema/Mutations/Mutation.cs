@@ -11,10 +11,10 @@ namespace GraphQlTest.Schema.Mutations
     
     public class Mutation 
     {
-        private IDbContextFactory<PizzaToppingsDbContext> _context;
+        private PizzaToppingsDbContext _context;
         public Mutation(IDbContextFactory<PizzaToppingsDbContext> pizzaToppingDbContext)
         {
-            _context = pizzaToppingDbContext;
+            _context = pizzaToppingDbContext.CreateDbContext();
         }
 
 
@@ -26,7 +26,7 @@ namespace GraphQlTest.Schema.Mutations
         /// <returns></returns>
         public async Task<ToppingType> CreateTopping(ToppingInputType toppingInputType, [Service] ITopicEventSender topicEventSender)
         {
-            if (_context.CreateDbContext().Toppings.Any(t => t.Name == toppingInputType.Name))
+            if (await _context.Toppings.AnyAsync(t => t.Name == toppingInputType.Name))
                 throw new GraphQLException("TOPPING_ALREADY_EXISTS");
 
             ToppingType topping = new ToppingType()
@@ -36,11 +36,10 @@ namespace GraphQlTest.Schema.Mutations
                 Price = toppingInputType.Price
             };
 
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                context.Toppings.Add(topping);
-                await context.SaveChangesAsync();
-            }
+           
+            _context.Toppings.Add(topping);
+            await _context.SaveChangesAsync();
+            
             await topicEventSender.SendAsync(nameof(Subscription.ToppingCreated), topping);
 
             return topping;
@@ -54,9 +53,9 @@ namespace GraphQlTest.Schema.Mutations
         /// <param name="toppingId"></param>
         /// <returns></returns>
         /// <exception cref="GraphQLException"></exception>
-        public ToppingType UpdateTopping(ToppingInputType toppingInputType , Guid toppingId) { 
+        public async Task<ToppingType> UpdateTopping(ToppingInputType toppingInputType , Guid toppingId) { 
 
-            ToppingType topping = _context.CreateDbContext().Toppings.FirstOrDefault(t => t.Id ==  toppingId);
+            ToppingType topping = await _context.Toppings.FirstOrDefaultAsync(t => t.Id ==  toppingId);
 
             if (topping == null)
                 throw new NotFoundExeption("Not Found");
@@ -64,11 +63,10 @@ namespace GraphQlTest.Schema.Mutations
             topping.Name = toppingInputType.Name;
             topping.Price = toppingInputType.Price;
 
-            using (PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                context.Toppings.Update(topping);
-                context.SaveChanges();
-            }
+            
+            _context.Toppings.Update(topping);
+            await  _context.SaveChangesAsync();
+            
                 return topping;
         }
 
@@ -79,7 +77,7 @@ namespace GraphQlTest.Schema.Mutations
         /// <returns></returns>
         public async Task<bool> DeleteTopping(Guid toppingId)
         {
-            bool toppingExists = _context.CreateDbContext().Toppings.Any(t => t.Id == toppingId);
+            bool toppingExists = await _context.Toppings.AnyAsync(t => t.Id == toppingId);
 
             if(!toppingExists)
                 throw new NotFoundExeption("Not Found");
@@ -89,11 +87,10 @@ namespace GraphQlTest.Schema.Mutations
                 Id = toppingId
             };
 
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                context.Toppings.Remove(topping);
-                return await context.SaveChangesAsync() > 0;
-            }
+            
+            _context.Toppings.Remove(topping);
+            return await _context.SaveChangesAsync() > 0;
+           
         }
 
 
@@ -106,11 +103,7 @@ namespace GraphQlTest.Schema.Mutations
         /// <returns></returns>
         public async Task<PizzaType> CreatePizza(PizzaInputType pizzaInputType, [Service] ITopicEventSender topicEventSender)
         {
-            ToppingType topping;
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                topping = await context.Toppings.FirstOrDefaultAsync(t => t.Id == pizzaInputType.ToppingId);
-            }
+            ToppingType topping = await _context.Toppings.FirstOrDefaultAsync(t => t.Id == pizzaInputType.ToppingId);
 
             if (topping == null)
                 throw new NotFoundExeption("Not Found");
@@ -124,11 +117,10 @@ namespace GraphQlTest.Schema.Mutations
                 ToppingId = topping.Id
             };
 
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                context.Pizzas.Add(pizza);
-                context.SaveChanges();
-            }
+           
+            _context.Pizzas.Add(pizza);
+            await _context.SaveChangesAsync();
+            
             await topicEventSender.SendAsync(nameof(Subscription.PizzaCreated), pizza);
 
             return pizza;
@@ -146,17 +138,12 @@ namespace GraphQlTest.Schema.Mutations
         /// <exception cref="GraphQLException"></exception>
         public async Task<PizzaType> UpdatePizza(Guid pizzaId, UpdatePizzaInputType pizzaInputType , Guid newToppingId)
         {
-            PizzaType pizza;
-            ToppingType newTopping;
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                pizza = await context.Pizzas.FirstOrDefaultAsync(p => p.Id == pizzaId);
-                newTopping = await context.Toppings.FirstOrDefaultAsync(t => t.Id == newToppingId);
-            }
+            PizzaType pizza = await _context.Pizzas.FirstOrDefaultAsync(p => p.Id == pizzaId);
 
             if (pizza == null)
                 throw new NotFoundExeption("Pizza Not Found");
-            
+
+            ToppingType newTopping = await _context.Toppings.FirstOrDefaultAsync(t => t.Id == newToppingId);   
 
             if (newTopping == null)
                 throw new NotFoundExeption("Topping Not Found");
@@ -167,11 +154,10 @@ namespace GraphQlTest.Schema.Mutations
             pizza.Size = pizzaInputType.size;
             pizza.ToppingId = newToppingId;
 
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                context.Pizzas.Update(pizza);
-                context.SaveChanges();
-            }
+            
+            _context.Pizzas.Update(pizza);
+            await _context.SaveChangesAsync();
+            
 
             return pizza;
         }
@@ -183,7 +169,7 @@ namespace GraphQlTest.Schema.Mutations
         /// <returns></returns>
         public async Task<bool> DeletePizza(Guid pizzaId )
         {
-            bool pizzaExists = _context.CreateDbContext().Pizzas.Any(t => t.Id == pizzaId);
+            bool pizzaExists = await _context.Pizzas.AnyAsync(t => t.Id == pizzaId);
 
             if (!pizzaExists)
                 throw new NotFoundExeption("Not Found");
@@ -193,11 +179,9 @@ namespace GraphQlTest.Schema.Mutations
                 Id = pizzaId
             };
 
-            using (PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                context.Pizzas.Remove(pizza);
-                return await context.SaveChangesAsync() > 0;
-            }
+            _context.Pizzas.Remove(pizza);
+            return await _context.SaveChangesAsync() > 0;
+            
         }
     }
 }

@@ -10,25 +10,19 @@ namespace GraphQlTest.Schema.Querries
 
     public class Query
     {
-        private IDbContextFactory<PizzaToppingsDbContext> _context;
+        private PizzaToppingsDbContext _context;
         public Query(IDbContextFactory<PizzaToppingsDbContext> context)
         {
-            _context = context;
+            _context = context.CreateDbContext();
         }
         public ICollection<PizzaType> GetPizzas()
         {
-            using (PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                return context.Pizzas.OrderBy(p => p.Id).ToList();
-            }
+            return _context.Pizzas.OrderBy(p => p.Id).ToList();
         }
 
         public ICollection<ToppingType> GetToppings()
         {
-            using(PizzaToppingsDbContext context = _context.CreateDbContext())
-            {
-                return context.Toppings.OrderBy(t => t.Name).ToList();
-            }
+            return _context.Toppings.OrderBy(t => t.Id).ToList();
         }
     }
 }
