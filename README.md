@@ -49,6 +49,17 @@ Docker is a virtualisation tech to make deployement easier. It uses containers t
 
 - noconfig needed directly on the server OS. Less room for errors. 
 
+- Docker container is a running instance of an Docker Image. Therefor you can run multiple containers from one image.
+
+- Docker Hub is a place where official supported images are gathered for the technology that you are using. These are maintained by the community. They are official Docker Images that you can use. 
+
+- Docker Images are also versioned. So you'll have multiple choices of what version you want to use for your docker image. 
+
+- This is how you pull in a Docker Image
+```
+docker pull {nameImage}:{tag}
+```
+
 ofcourse you'll need to install docker on the server. But thats only a one time thing and it makes the operations for the rest of the application easier. 
 
 Here are the differences between docker and virtual machines.:
