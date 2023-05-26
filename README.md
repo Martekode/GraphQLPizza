@@ -59,6 +59,14 @@ Docker is a virtualisation tech to make deployement easier. It uses containers t
 ```
 docker pull {nameImage}:{tag}
 ```
+- you dont need to pull in the docker image. You can run any image from docker hub and it will pull it in if it doesnt find it locally. 
+
+- Port Binding: We need to bind the port so that we can access the app. We bind the port from the container to a port from our localhost. 
+
+```
+docker run -d -p 9000:80 {imageName}:{tag}
+```
+- this will make it so that you can go to localhost:9000 and it will work. While previously it wouldnt. It wouldn't even work on localhost:80 because the 80 port refers to the container.
 
 ofcourse you'll need to install docker on the server. But thats only a one time thing and it makes the operations for the rest of the application easier. 
 
