@@ -123,6 +123,7 @@ Here are the differences between docker and virtual machines.:
 ### docker desktop 
 this will come with a graphical interface, so that you can choose not to use the commandline interface.  
 ## CI (Continuous Integration)
+- Azure DevOps: https://www.youtube.com/watch?v=4BibQ69MD8c
 Continuous Integration (CI) is a software development practice that involves regularly merging code changes from multiple developers into a central repository. The main goal of CI is to catch and address integration issues early in the development process. It promotes collaboration, early bug detection, and efficient development workflows.
 
 Here's how CI typically works:
