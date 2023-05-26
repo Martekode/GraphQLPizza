@@ -115,6 +115,13 @@ Here are the differences between docker and virtual machines.:
 ```
 - this docker file will generate the docker image based on your application and given instructions inside the dockerfile. 
 
+```CMD
+    docker build -t {nameImage}:{versionTag} {location dockerFile}
+```
+- the command above will build the docker image so that it can be run. 
+
+### docker desktop 
+this will come with a graphical interface, so that you can choose not to use the commandline interface.  
 ## CI (Continuous Integration)
 Continuous Integration (CI) is a software development practice that involves regularly merging code changes from multiple developers into a central repository. The main goal of CI is to catch and address integration issues early in the development process. It promotes collaboration, early bug detection, and efficient development workflows.
 
