@@ -144,3 +144,17 @@ Here's how CI typically works:
 By following the CI approach, development teams can minimize integration issues, improve code quality, increase productivity, and enhance collaboration among team members. It allows for faster development cycles and reduces the likelihood of encountering significant problems during the final stages of a project.
 ### Azure DevOps
 Azure DevOps: https://www.youtube.com/watch?v=4BibQ69MD8c
+- it is a DevOps Platform.
+- it is SaaS (software as a service) from Microsoft 
+- platform to implement all your DevOps processes. 
+- to make the software development lifecycle as efficient and seamless as possible. 
+
+What's the architecture. LIFECYCLE
+- => Planning (Rolls, SCRUM/AGILE, Why creating the app, what needs to be devloped,....)
+- => Code (Actually making the app, using azure repos/github/gitlab,....)
+### Azure PipeLines
+#### CI
+- => Test
+- => Package
+#### CD
+- => Deploy
