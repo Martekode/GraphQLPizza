@@ -68,6 +68,19 @@ docker run -d -p 9000:80 {imageName}:{tag}
 ```
 - this will make it so that you can go to localhost:9000 and it will work. While previously it wouldnt. It wouldn't even work on localhost:80 because the 80 port refers to the container.
 
+- binding has a standard where you usually bind it to the same port as inside the container. Ex. : If the port in the container = 3306 for mysql, then also bind it to 3306 on your localhost. 
+
+```
+ docker ps -a
+```
+- this command will show all the containers, even if they are not running. Handy because docker ps only shows running containers. 
+```
+    docker run --name {CustomContainerName} -d -p 9000:80 {imageName}:{tag}
+```
+- the command above will generate the name that you want, instead of a randomly generated one. 
+
+- you can also store these images, so you can access them from anywhere if you plan to reuse them a lot. You can make them private or public. 
+
 ofcourse you'll need to install docker on the server. But thats only a one time thing and it makes the operations for the rest of the application easier. 
 
 Here are the differences between docker and virtual machines.:
@@ -81,6 +94,27 @@ Here are the differences between docker and virtual machines.:
 - virtual machine images are much larger. (GB)
 - virtual machines take minutes to start. 
 - Virtual machines have an application layer and its own kernel. 
+
+### DockerFile
+- docker file: a textdocument that contains commands to assemble an image. 
+- docker can then build an image by reading those instructions. 
+- create a new file in root= Dockerfile.
+- identify base image. 
+```Dockerfile
+    # adding the base img that needs to be applied. in a node app you need node
+    FROM {baseImageName}:{tag}
+    # copy all the files needed into he container and paste them in /app/
+    COPY package.json /app/
+    COPY src /app/
+    # change the directory where to work from. Same as "cd" in git bash.
+    WORKDIR /app
+    # installs all the dependancies needed to make the app work. Uses package.json to find these dependancies. 
+    RUN npm install
+    # actually starting the application 
+    CMD ["node", "server.js"]
+```
+- this docker file will generate the docker image based on uw applicatie en de commands given in the dockerfile. 
+
 ## CI (Continuous Integration)
 Continuous Integration (CI) is a software development practice that involves regularly merging code changes from multiple developers into a central repository. The main goal of CI is to catch and address integration issues early in the development process. It promotes collaboration, early bug detection, and efficient development workflows.
 
