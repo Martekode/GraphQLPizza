@@ -41,6 +41,27 @@ Docker is an open-source platform that allows you to automate the deployment, sc
 
 Docker provides a flexible and efficient way to package and deploy applications, making it easier to manage dependencies and ensure consistent behavior across different environments. It has gained significant popularity in the software development and deployment landscape due to its simplicity and portability.
 
+### Videos watched
+
+Docker is a virtualisation tech to make deployement easier. It uses containers to make this happen. It also makes developing easier. You dont have to download and intall all the services locally. The Docker container takes care of that. 
+
+- It standardizes process of running any service on any local dev environment. 
+
+- noconfig needed directly on the server OS. Less room for errors. 
+
+ofcourse you'll need to install docker on the server. But thats only a one time thing and it makes the operations for the rest of the application easier. 
+
+Here are the differences between docker and virtual machines.:
+### docker
+- Docker runs on the APPLICATION LAYER od the OS. and it uses the kernel of the host sinds it doesnt have its own kernel.  
+- docker images are much smaller. (MB)
+- docker containers start much faster, they take seconds to start.
+- Docker is only compatible with linux. thats why docker desktop can be used on windows and mac.
+### VM
+- Virtual machines are compatible on any OS and can be any OS themselves.
+- virtual machine images are much larger. (GB)
+- virtual machines take minutes to start. 
+- Virtual machines have an application layer and its own kernel. 
 ## CI (Continuous Integration)
 Continuous Integration (CI) is a software development practice that involves regularly merging code changes from multiple developers into a central repository. The main goal of CI is to catch and address integration issues early in the development process. It promotes collaboration, early bug detection, and efficient development workflows.
 
