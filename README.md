@@ -40,3 +40,24 @@ Docker is an open-source platform that allows you to automate the deployment, sc
 - Docker Registry: A Docker registry is a central repository where Docker images can be stored, shared, and downloaded. The default public registry is Docker Hub, which hosts a vast collection of pre-built images. You can also set up your private registry to store and distribute your own Docker images.
 
 Docker provides a flexible and efficient way to package and deploy applications, making it easier to manage dependencies and ensure consistent behavior across different environments. It has gained significant popularity in the software development and deployment landscape due to its simplicity and portability.
+
+## CI (Continuous Integration)
+Continuous Integration (CI) is a software development practice that involves regularly merging code changes from multiple developers into a central repository. The main goal of CI is to catch and address integration issues early in the development process. It promotes collaboration, early bug detection, and efficient development workflows.
+
+Here's how CI typically works:
+
+- Version Control: Developers work on separate branches of a version control system, such as Git. Each branch represents a specific feature or bug fix.
+
+- Automated Build: When a developer completes their changes and pushes them to the central repository, a CI server or build system automatically triggers a build process. This process compiles the code, runs tests, and generates executable files or artifacts.
+
+- Testing: The CI server runs various automated tests on the newly built code. This includes unit tests, integration tests, and sometimes even performance or security tests. These tests verify the correctness and quality of the code.
+
+- Reporting: The CI server generates reports indicating the status and results of the build and tests. Developers can quickly identify any failures or issues that need to be addressed.
+
+- Notifications: The CI system sends notifications to relevant team members, such as developers or project managers, to inform them about the build and test results. This helps in prompt issue resolution and facilitates communication among team members.
+
+- Continuous Feedback: The CI process provides rapid feedback to developers, allowing them to detect and fix integration problems, conflicts, or bugs early in the development cycle. It encourages smaller, more frequent code changes instead of large, infrequent merges.
+
+- Continuous Deployment (Optional): In addition to CI, some teams implement Continuous Deployment (CD), where successful builds and tests automatically trigger the deployment of the application to production or staging environments.
+
+By following the CI approach, development teams can minimize integration issues, improve code quality, increase productivity, and enhance collaboration among team members. It allows for faster development cycles and reduces the likelihood of encountering significant problems during the final stages of a project.
